@@ -56,7 +56,7 @@ export const validateRSSFeed = async (rssUrl) => {
 export const fetchArticleContent = async (articleUrl) => {
     const proxyURL = `${CORS_PROXY}${MERCURY_API}`;
     try {
-        const response = await axios.post(articleUrl, { url: articleUrl }, {
+        const response = await axios.post(MERCURY_API, { url: articleUrl }, {
             headers: {
                 'Content-Type': 'application/json'
             }
