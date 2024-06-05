@@ -1,15 +1,13 @@
 import axios from 'axios';
 
 const MERCURY_API = 'https://uptime-mercury-api.azurewebsites.net/webparser';
-const CORS_PROXY = "https://cors-proxy-vercel.vercel.app/";
+const CORS_PROXY = 'http://localhost:8080/';
 
 // Fetch feed from input URL
 export const fetchRSSFeed = async (rssUrl) => {
     const url = `${CORS_PROXY}${rssUrl}`;
     try {
-        //const response = await axios.get(url, { headers: { 'Accept': 'application/rss+xml' } });
-        const response = await axios.get(rssUrl);
-        console.log(response)
+        const response = await axios.get(rssUrl, { headers: { 'Accept': 'application/rss+xml' } });
         const parser = new DOMParser();
         const xml = parser.parseFromString(response.data, 'text/xml');
         const items = xml.querySelectorAll('item');
@@ -45,7 +43,7 @@ export const fetchRSSFeed = async (rssUrl) => {
 export const validateRSSFeed = async (rssUrl) => {
     const url = `${CORS_PROXY}${rssUrl}`;
     try {
-        const response = await axios.get(url, { headers: { 'Accept': 'application/rss+xml' } });
+        const response = await axios.get(rssUrl, { headers: { 'Accept': 'application/rss+xml' } });
         const parser = new DOMParser();
         const xml = parser.parseFromString(response.data, 'text/xml');
         return (xml.querySelector('rss') || xml.querySelector('feed')) ? true : false; // Check for RSS or Atom feeds
@@ -58,7 +56,7 @@ export const validateRSSFeed = async (rssUrl) => {
 export const fetchArticleContent = async (articleUrl) => {
     const proxyURL = `${CORS_PROXY}${MERCURY_API}`;
     try {
-        const response = await axios.post(proxyURL, { url: articleUrl }, {
+        const response = await axios.post(articleUrl, { url: articleUrl }, {
             headers: {
                 'Content-Type': 'application/json'
             }
