@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 const MERCURY_API = 'https://uptime-mercury-api.azurewebsites.net/webparser';
-const CORS_PROXY = 'http://localhost:8080/';
+const CORS_PROXY = "https://cors-proxy-vercel.vercel.app/";
 
 // Fetch feed from input URL
 export const fetchRSSFeed = async (rssUrl) => {
     const url = `${CORS_PROXY}${rssUrl}`;
     try {
-        const response = await axios.get(url, { headers: { 'Accept': 'application/rss+xml' } });
-        //const response = await axios.get(rssUrl);
+        //const response = await axios.get(url, { headers: { 'Accept': 'application/rss+xml' } });
+        const response = await axios.get(rssUrl);
         console.log(response)
         const parser = new DOMParser();
         const xml = parser.parseFromString(response.data, 'text/xml');
