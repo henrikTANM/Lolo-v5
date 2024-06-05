@@ -8,6 +8,8 @@ export const fetchRSSFeed = async (rssUrl) => {
     const url = `${CORS_PROXY}${rssUrl}`;
     try {
         const response = await axios.get(url, { headers: { 'Accept': 'application/rss+xml' } });
+        //const response = await axios.get(rssUrl);
+        console.log(response)
         const parser = new DOMParser();
         const xml = parser.parseFromString(response.data, 'text/xml');
         const items = xml.querySelectorAll('item');
